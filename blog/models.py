@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
+
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
@@ -12,7 +13,8 @@ class Post(models.Model):
             blank=True, null=True)
 
     def publish(self):
-        self.published_date = timezone.now()
+        self.published_date = timezone.now().order_by('published_date')
+        return render(request, 'blog/post_list.html', {})
         self.save()
 
     def __str__(self):
